@@ -3,21 +3,21 @@ import java.util.ArrayList;
 public class NodeQueue {
   
   private ArrayList<Node> queue = new ArrayList<>();
-  private Node head;
-  private Node tail;
+  private int head;
+  private int tail;
 
-  public NodeQueue(Node head, Node tail) {
-    this.head = head;
-    this.tail = tail;
+  public NodeQueue() {
+    this.head = 0;
+    this.tail = -1;
   }
 
-  public Node getHead() {
-    return head;
-  }
+  // public Node getHead() {
+  //   return head;
+  // }
 
-  public Node getTail() {
-    return tail;
-  }
+  // public Node getTail() {
+  //   return tail;
+  // }
 
   public void enqueue(Node node) {
     queue.add(node);
