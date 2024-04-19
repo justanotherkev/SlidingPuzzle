@@ -1,6 +1,6 @@
-This project uses path finding in Java to solve a type of puzzle that occurs in many video games. 
+This project uses pathfinding in Java to solve a type of puzzle that occurs in many video games. 
 The basic version that we will be dealing with is this: 
-.  .  .  .  .  0  .  .  .  \nS
+.  .  .  .  .  0  .  .  .  S
 .  .  .  .  0  .  .  .  .  .
 0  .  .  .  .  .  0  .  .  0
 .  .  .  0  .  .  .  .  0  .
@@ -12,7 +12,7 @@ The basic version that we will be dealing with is this:
 .  0  0  .  .  .  .  .  0  .
 
 The player starts at the location labelled “S” and wants to reach the finish, labelled “F”. 
-Each turn, they choose one of the four cardinal directions to move. However, except for S and F the 
+Each turn, they choose one of the four cardinal directions to move. However, except for S and F, the 
 floor is covered in frictionless ice, so they will keep sliding in the chosen direction until they 
 hit the wall surrounding the area, or one of the rocks (labelled “0”). For example, starting in 
 the map given above:
