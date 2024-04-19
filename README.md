@@ -1,7 +1,6 @@
 This project uses path finding in Java to solve a type of puzzle that occurs in many video games. 
 The basic version that we will be dealing with is this: 
-.  .  .  .  .  0  .  .  .  S
-
+.  .  .  .  .  0  .  .  .  \nS
 .  .  .  .  0  .  .  .  .  .
 0  .  .  .  .  .  0  .  .  0
 .  .  .  0  .  .  .  .  0  .
