@@ -8,13 +8,81 @@ public class Graph {
   private Node startNode;
   private Node endNode;
 
+  public Node[] breadthFirstSearch() {
+    NodeQueue queue = new NodeQueue(gridDimensions[0] * gridDimensions[1]);
+    queue.enqueue(startNode);
+
+    boolean isEndNodeReached = false;
+
+    int count = 2;
+    while (!queue.isEmpty() && !isEndNodeReached) {
+      for (int i = 0; i < queue.getSize(); i++) {
+        Node node = queue.dequeue();
+        node.setVisitedStatus(true);
+
+        Node[] neighbours = {
+            node.getTopNode(),
+            node.getRightNode(),
+            node.getBottomNode(),
+            node.getLeftNode()
+        };
+
+        for (Node neighbour : neighbours) {
+          if (neighbour != null && !neighbour.isVisited()) {
+            neighbour.setVisitedStatus(true);
+            neighbour.setPreviousNode(node);
+            if (neighbour.getNodeType() == 'F') {
+              isEndNodeReached = true;
+              break;
+            }
+            queue.enqueue(neighbour);
+          }
+        }
+      }
+      count++;
+    }
+
+    if (endNode.getPreviousNode() != null) {
+      printPath(endNode, count);
+      System.out.println(count + ". Done!\n");
+    } else {
+      System.out.println("No path found\n");
+    }
+
+    return null;
+  }
+
   /**
-   * Loads a maze from a file and constructs nodes for each character in the maze.
+   * Prints the path from the given node to the start node.
    *
-   * @param fileName the name of the file containing the maze
-   * @return a nested integer array containing the dimensions of the loaded maze
-   *         {row, column}, the start coordinates and the end coordinates
+   * @param node the node from which to start printing the path; shoud be the end
+   *             node
    */
+  public void printPath(Node node, int count) {
+    count--;
+    if (node.getPreviousNode() != null) {
+      printPath(node.getPreviousNode(), count);
+    }
+
+    if (node.getPreviousNode() == null) {
+      System.out.print(count + ". Start at");
+    } else {
+      if (node.getPreviousNode().getColumn() < node.getColumn()) {
+        System.out.print(count + ". Move right to");
+      } else if (node.getPreviousNode().getColumn() > node.getColumn()) {
+        System.out.print(count + ". Move left to");
+      }
+
+      if (node.getPreviousNode().getRow() < node.getRow()) {
+        System.out.print(count + ". Move down to");
+      } else if (node.getPreviousNode().getRow() > node.getRow()) {
+        System.out.print(count + ". Move up to");
+      }
+    }
+
+    System.out.println("(" + (node.getColumn() + 1) + "," + (node.getRow() + 1) + ")");
+  }
+
   public void loadMaze(String fileName) {
     String line = "";
 
@@ -23,7 +91,7 @@ public class Graph {
       BufferedReader reader = new BufferedReader(file);
 
       while ((line = reader.readLine()) != null) {
-        // Contains all the nodes in a single row
+        // Contains all the nodes from a single row
         ArrayList<Node> nodeRow = new ArrayList<>();
 
         // Set the number of columns
@@ -47,7 +115,6 @@ public class Graph {
       reader.close();
       System.out.println("\nMaze loaded successfully");
       printMaze();
-      printMazeCoordinates();
 
       this.setNeighbours();
 
@@ -67,6 +134,28 @@ public class Graph {
           node.setLeftNode(this.getLeftNeighbour(node));
         }
       }
+    }
+  }
+
+  public Node getTopNeighbour(Node currentNode) {
+    int topMoves = 1;
+    int currentRow = currentNode.getRow();
+    int currentColumn = currentNode.getColumn();
+
+    // Move upwards until hitting a rock or wall
+    while ((currentRow - topMoves) >= 0
+        && nodesArray.get(currentRow - topMoves).get(currentColumn).getNodeType() != '0') {
+      // Check if the node is an end node
+      if (nodesArray.get(currentRow - topMoves).get(currentColumn).getNodeType() == 'F') {
+        return nodesArray.get(currentRow - topMoves).get(currentColumn);
+      }
+      topMoves++;
+    }
+
+    if (topMoves == 1) {
+      return null;
+    } else {
+      return nodesArray.get(currentRow - topMoves + 1).get(currentColumn);
     }
   }
 
@@ -93,50 +182,6 @@ public class Graph {
     }
   }
 
-  public Node getLeftNeighbour(Node currentNode) {
-    int leftMoves = 1;
-    int currentRow = currentNode.getRow();
-    int currentColumn = currentNode.getColumn();
-
-    // Move left until hitting a rock or wall
-    while ((currentColumn - leftMoves) >= 0
-        && nodesArray.get(currentRow).get(currentColumn - leftMoves).getNodeType() != '0') {
-
-      // Check if the node is an end node
-      if (nodesArray.get(currentRow).get(currentColumn - leftMoves).getNodeType() == 'F') {
-        return nodesArray.get(currentRow).get(currentColumn - leftMoves);
-      }
-      leftMoves++;
-    }
-    if (leftMoves == 1) {
-      return null;
-    } else {
-      return nodesArray.get(currentRow).get(currentColumn - leftMoves + 1);
-    }
-  }
-
-  public Node getTopNeighbour(Node currentNode) {
-    int topMoves = 1;
-    int currentRow = currentNode.getRow();
-    int currentColumn = currentNode.getColumn();
-
-    // Move upwards until hitting a rock or wall
-    while ((currentRow - topMoves) >= 0
-        && nodesArray.get(currentRow - topMoves).get(currentColumn).getNodeType() != '0') {
-      // Check if the node is an end node
-      if (nodesArray.get(currentRow - topMoves).get(currentColumn).getNodeType() == 'F') {
-        return nodesArray.get(currentRow - topMoves).get(currentColumn);
-      }
-      topMoves++;
-
-    }
-    if (topMoves == 1) {
-      return null;
-    } else {
-      return nodesArray.get(currentRow - topMoves + 1).get(currentColumn);
-    }
-  }
-
   public Node getBottomNeighbour(Node currentNode) {
     int bottomMoves = 1;
     int currentRow = currentNode.getRow();
@@ -152,10 +197,34 @@ public class Graph {
       }
       bottomMoves++;
     }
+
     if (bottomMoves == 1) {
       return null;
     } else {
       return nodesArray.get(currentRow + bottomMoves - 1).get(currentColumn);
+    }
+  }
+
+  public Node getLeftNeighbour(Node currentNode) {
+    int leftMoves = 1;
+    int currentRow = currentNode.getRow();
+    int currentColumn = currentNode.getColumn();
+
+    // Move left until hitting a rock or wall
+    while ((currentColumn - leftMoves) >= 0
+        && nodesArray.get(currentRow).get(currentColumn - leftMoves).getNodeType() != '0') {
+
+      // Check if the node is an end node
+      if (nodesArray.get(currentRow).get(currentColumn - leftMoves).getNodeType() == 'F') {
+        return nodesArray.get(currentRow).get(currentColumn - leftMoves);
+      }
+      leftMoves++;
+    }
+
+    if (leftMoves == 1) {
+      return null;
+    } else {
+      return nodesArray.get(currentRow).get(currentColumn - leftMoves + 1);
     }
   }
 

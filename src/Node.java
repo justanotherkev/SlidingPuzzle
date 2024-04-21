@@ -2,6 +2,8 @@ public class Node {
   private char nodeType;
   private int row;
   private int column;
+  private boolean visitedStatus = false;
+  private Node previousNode = null;
   private Node topNode = null;
   private Node rightNode = null;
   private Node bottomNode = null;
@@ -17,74 +19,61 @@ public class Node {
   public char getNodeType() {
     return nodeType;
   }
+
   public int getColumn() {
     return column;
   }
+
   public int getRow() {
     return row;
   }
+
   public Node getTopNode() {
     return topNode;
   }
+
   public Node getRightNode() {
     return rightNode;
   }
+
   public Node getBottomNode() {
     return bottomNode;
   }
+
   public Node getLeftNode() {
     return leftNode;
+  }
+
+  public boolean isVisited() {
+    return visitedStatus;
+  }
+
+  public Node getPreviousNode() {
+    return this.previousNode;
   }
 
   // Setters
   public void setTopNode(Node topNode) {
     this.topNode = topNode;
   }
+
   public void setRightNode(Node rightNode) {
     this.rightNode = rightNode;
   }
+
   public void setBottomNode(Node bottomNode) {
     this.bottomNode = bottomNode;
   }
+
   public void setLeftNode(Node leftNode) {
     this.leftNode = leftNode;
   }
+
+  public void setVisitedStatus(boolean visitedStatus) {
+    this.visitedStatus = visitedStatus;
+  }
+
+  public void setPreviousNode(Node previousNode) {
+    this.previousNode = previousNode;
+  }
 }
-
-
-// public class Node {
-// private char nodeType;
-// private Node topNode;
-// private Node rightNode;
-// private Node bottomNode;
-// private Node leftNode;
-
-// public Node(char nodeType, Node topNode, Node rightNode, Node bottomNode,
-// Node leftNode) {
-// this.nodeType = nodeType;
-// this.topNode = topNode;
-// this.rightNode = rightNode;
-// this.bottomNode = bottomNode;
-// this.leftNode = leftNode;
-// }
-
-// public char getNodeType() {
-// return nodeType;
-// }
-
-// public Node getTopNode() {
-// return topNode;
-// }
-
-// public Node getRightNode() {
-// return rightNode;
-// }
-
-// public Node getBottomNode() {
-// return bottomNode;
-// }
-
-// public Node getLeftNode() {
-// return leftNode;
-// }
-// }

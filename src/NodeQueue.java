@@ -1,44 +1,51 @@
-import java.util.ArrayList;
-
 public class NodeQueue {
-  
-  private ArrayList<Node> queue = new ArrayList<>();
+
+  private Node[] queue;
   private int head;
   private int tail;
+  private int capacity;
+  private int size;
 
-  public NodeQueue() {
+  public NodeQueue(int capacity) {
+    this.queue = new Node[capacity];
     this.head = 0;
-    this.tail = -1;
+    this.tail = 0;
+    this.capacity = capacity;
+    this.size = 0;
   }
 
-  // public Node getHead() {
-  //   return head;
-  // }
-
-  // public Node getTail() {
-  //   return tail;
-  // }
-
-  public void enqueue(Node node) {
-    queue.add(node);
-  }
-
-  public Node dequeue() {
-    return queue.remove(0);
+  public boolean isFull() {
+    return size == capacity;
   }
 
   public boolean isEmpty() {
-    return queue.isEmpty();
-  }
-
-  public int size() {
-    return queue.size();
-  }
-
-  public ArrayList<Node> getQueue() {
-    return queue;
+    return size == 0;
   }
 
 
+  public void enqueue(Node node) {
+    if (!isFull()) {
+      queue[tail] = node;
+      tail = (tail + 1) % capacity;
+      size++;
+    } else {
+      System.out.println("Queue is full");
+    }
+  }
 
+  public Node dequeue() {
+    if (!isEmpty()) {
+      Node node = queue[head];
+      head = (head + 1) % capacity;
+      size--;
+      return node;
+    } else {
+      System.out.println("Queue is empty");
+      return null;
+    }
+  }
+
+  public int getSize() {
+    return size;
+  }
 }
