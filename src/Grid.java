@@ -2,13 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class Graph {
+public class Grid {
   private ArrayList<ArrayList<Node>> nodesArray = new ArrayList<>();
   private int[] gridDimensions = { 0, 0 }; // {row, collumn}
   private Node startNode;
   private Node endNode;
 
-  public Node[] breadthFirstSearch() {
+  public void breadthFirstSearch() {
     NodeQueue queue = new NodeQueue(gridDimensions[0] * gridDimensions[1]);
     queue.enqueue(startNode);
 
@@ -48,9 +48,53 @@ public class Graph {
     } else {
       System.out.println("No path found\n");
     }
-
-    return null;
   }
+
+  public void aStarSearch() {
+    NodePriorityQueue queue = new NodePriorityQueue(gridDimensions[0] * gridDimensions[1]);
+    queue.enqueue(startNode);
+
+    while (!queue.isEmpty()) {
+      for (int i = 0; i < queue.getSize(); i++) {
+        Node node = queue.dequeue();
+
+        Node[] neighbours = {
+            node.getTopNode(),
+            node.getRightNode(),
+            node.getBottomNode(),
+            node.getLeftNode()
+        };
+
+        for (Node neighbour : neighbours) {
+          if (neighbour != null) {
+            neighbour.setVisitedStatus(true);
+            neighbour.setPreviousNode(node);
+
+            if (neighbour.getNodeType() == 'F') {
+              break;
+            }
+            queue.enqueue(neighbour);
+          }
+        }
+      }
+    }
+    
+  }
+
+  public int calculateDistanceToStart(Node previousNode, Node currentNode) {
+    int distanceToStart = 0;
+
+    return distanceToStart;
+  }
+
+  public int calculateDistanceToEnd(Node previousNode, Node currentNode) {
+    int distanceToEnd = 0;
+
+    return distanceToEnd;
+  }
+
+
+  
 
   /**
    * Prints the path from the given node to the start node.
@@ -65,22 +109,22 @@ public class Graph {
     }
 
     if (node.getPreviousNode() == null) {
-      System.out.print(count + ". Start at");
+      System.out.print(". Start at");
     } else {
       if (node.getPreviousNode().getColumn() < node.getColumn()) {
-        System.out.print(count + ". Move right to");
+        System.out.print(". Move right to");
       } else if (node.getPreviousNode().getColumn() > node.getColumn()) {
-        System.out.print(count + ". Move left to");
+        System.out.print(". Move left to");
       }
 
       if (node.getPreviousNode().getRow() < node.getRow()) {
-        System.out.print(count + ". Move down to");
+        System.out.print(". Move down to");
       } else if (node.getPreviousNode().getRow() > node.getRow()) {
-        System.out.print(count + ". Move up to");
+        System.out.print(". Move up to");
       }
     }
 
-    System.out.println("(" + (node.getColumn() + 1) + "," + (node.getRow() + 1) + ")");
+    System.out.println(" (" + (node.getColumn() + 1) + "," + (node.getRow() + 1) + ")");
   }
 
   public void loadMaze(String fileName) {

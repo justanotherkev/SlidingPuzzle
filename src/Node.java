@@ -1,9 +1,17 @@
 public class Node {
   private char nodeType;
+
   private int row;
   private int column;
+  
+  private int distanceToStart;
+  private int distanceToEnd;
+  private int combinedWeight;
+
   private boolean visitedStatus = false;
+
   private Node previousNode = null;
+
   private Node topNode = null;
   private Node rightNode = null;
   private Node bottomNode = null;
@@ -52,6 +60,18 @@ public class Node {
     return this.previousNode;
   }
 
+  public int getDistanceToStart() {
+    return distanceToStart;
+  }
+
+  public int getDistanceToEnd() {
+    return distanceToEnd;
+  }
+
+  public int getCombinedWeight() {
+    return combinedWeight;
+  }
+
   // Setters
   public void setTopNode(Node topNode) {
     this.topNode = topNode;
@@ -75,5 +95,17 @@ public class Node {
 
   public void setPreviousNode(Node previousNode) {
     this.previousNode = previousNode;
+  }
+
+  public void setDistanceToStart(int distanceToStart) {
+    this.distanceToStart = distanceToStart;
+  }
+
+  public void setDistanceToEnd(int distanceToEnd) {
+    this.distanceToEnd = distanceToEnd;
+  }
+
+  public void setCombinedWeight(int combinedWeight) {
+    this.combinedWeight = combinedWeight;
   }
 }
