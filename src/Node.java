@@ -3,10 +3,12 @@ public class Node {
 
   private int row;
   private int column;
-  
-  private int distanceToStart;
-  private int distanceToEnd;
-  private int combinedWeight;
+
+  private int distanceToStart = 0;
+  private int distanceToPrevious = 0;
+
+  private double distanceToEnd = 0.0;
+  private double combinedWeight = 0.0;
 
   private boolean visitedStatus = false;
 
@@ -25,35 +27,35 @@ public class Node {
 
   // Getters
   public char getNodeType() {
-    return nodeType;
+    return this.nodeType;
   }
 
   public int getColumn() {
-    return column;
+    return this.column;
   }
 
   public int getRow() {
-    return row;
+    return this.row;
   }
 
   public Node getTopNode() {
-    return topNode;
+    return this.topNode;
   }
 
   public Node getRightNode() {
-    return rightNode;
+    return this.rightNode;
   }
 
   public Node getBottomNode() {
-    return bottomNode;
+    return this.bottomNode;
   }
 
   public Node getLeftNode() {
-    return leftNode;
+    return this.leftNode;
   }
 
   public boolean isVisited() {
-    return visitedStatus;
+    return this.visitedStatus;
   }
 
   public Node getPreviousNode() {
@@ -61,15 +63,19 @@ public class Node {
   }
 
   public int getDistanceToStart() {
-    return distanceToStart;
+    return this.distanceToStart;
   }
 
-  public int getDistanceToEnd() {
-    return distanceToEnd;
+  public double getDistanceToEnd() {
+    return this.distanceToEnd;
   }
 
-  public int getCombinedWeight() {
-    return combinedWeight;
+  public double getCombinedWeight() {
+    return this.combinedWeight;
+  }
+
+  public int getDistanceToPrevious() {
+    return this.distanceToPrevious;
   }
 
   // Setters
@@ -101,11 +107,15 @@ public class Node {
     this.distanceToStart = distanceToStart;
   }
 
-  public void setDistanceToEnd(int distanceToEnd) {
+  public void setDistanceToEnd(double distanceToEnd) {
     this.distanceToEnd = distanceToEnd;
   }
 
-  public void setCombinedWeight(int combinedWeight) {
+  public void setCombinedWeight(double combinedWeight) {
     this.combinedWeight = combinedWeight;
+  }
+
+  public void setDistanceToPrevious(int distanceToPrevious) {
+    this.distanceToPrevious = distanceToPrevious;
   }
 }

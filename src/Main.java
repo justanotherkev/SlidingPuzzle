@@ -4,7 +4,8 @@ class Main {
 
     Grid graph = new Grid();
     graph.loadMaze("test_maze.txt");
-    graph.breadthFirstSearch();
+    // graph.breadthFirstSearch();
+    graph.aStarSearch();
 
   }
 }

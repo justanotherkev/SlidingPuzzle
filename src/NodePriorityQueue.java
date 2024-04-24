@@ -12,19 +12,23 @@ public class NodePriorityQueue {
 
   public void enqueue(Node node) {
     if (!isFull()) {
-      for (int index = 0; index < size; index++) {
-        if (node.getCombinedWeight() <= priorityQueue[index].getCombinedWeight()) {
 
-          // Shift values to make space for new node
-          for (int i = size; i > index; i--) {
-            priorityQueue[i] = priorityQueue[i - 1];
-          }
+      int insertionIndex = size;
 
-          priorityQueue[index] = node;
+      for (int index = size; index > 0; index--) {
+        if (node.getCombinedWeight() > priorityQueue[index - 1].getCombinedWeight()) {
           break;
         }
+        priorityQueue[index] = priorityQueue[index - 1];
+        insertionIndex = index - 1;
       }
+
+      priorityQueue[insertionIndex] = node;
       size++;
+      // System.out.println("Added: " + node.getColumn() + "," + node.getRow() + "  -  " + "(" + node.getDistanceToStart()
+      //     + "+" + node.getDistanceToEnd() + ")");
+      // System.out.println("Queue size: " + size);
+
     } else {
       System.out.println("Queue is full");
     }
@@ -32,14 +36,19 @@ public class NodePriorityQueue {
 
   public Node dequeue() {
     if (!isEmpty()) {
-      Node root = priorityQueue[0];
+      Node node = priorityQueue[0];
 
-      for (int i = 0; i < size - 1; i++) {
-        priorityQueue[i] = priorityQueue[i + 1];
+      for (int index = 0; index < size - 1; index++) {
+        priorityQueue[index] = priorityQueue[index + 1];
       }
+
       priorityQueue[size - 1] = null;
       size--;
-      return root;
+      // System.out.println(
+      //     "\n__________\nRemoved: " + node.getColumn() + "," + node.getRow() + "  -  " + "(" + node.getDistanceToStart()
+      //         + "+" + node.getDistanceToEnd() + ")");
+      // System.out.println("Queue size: " + size);
+      return node;
     } else {
       System.out.println("Queue is empty");
       return null;
@@ -63,45 +72,5 @@ public class NodePriorityQueue {
       System.out.println("(" + node.getColumn() + ", " + node.getRow() + ")");
     }
   }
-
-  // private void siftUp(int index) {
-  // Node node = priorityQueue[index];
-  // while (index > 0 && priorityQueue[parent(index)].priority > node.priority) {
-  // priorityQueue[index] = priorityQueue[parent(index)];
-  // index = parent(index);
-  // }
-  // priorityQueue[index] = node;
-  // }
-
-  // private void siftDown(int index) {
-  // Node node = priorityQueue[index];
-  // int minChild;
-  // while (leftChild(index) < size) {
-  // minChild = leftChild(index);
-  // if (rightChild(index) < size
-  // && priorityQueue[rightChild(index)].priority <
-  // priorityQueue[leftChild(index)].priority) {
-  // minChild = rightChild(index);
-  // }
-  // if (priorityQueue[minChild].priority >= node.priority) {
-  // break;
-  // }
-  // priorityQueue[index] = priorityQueue[minChild];
-  // index = minChild;
-  // }
-  // priorityQueue[index] = node;
-  // }
-
-  // private int parent(int index) {
-  // return (index - 1) / 2;
-  // }
-
-  // private int leftChild(int index) {
-  // return (index * 2) + 1;
-  // }
-
-  // private int rightChild(int index) {
-  // return (index * 2) + 2;
-  // }
 
 }
